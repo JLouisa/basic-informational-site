@@ -4,11 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
     <title>Contact Me</title>
 </head>
 
 <body>
-    <h1>Welcome to the Contact Me Page</h1>
+    <h1>Contact Me</h1>
+    <p>If you have any questions or would like to get in touch, please feel free to contact me using the form below or
+        via email at <a href="mailto:your@email.com">your@email.com</a>.</p>
+
+    <form>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" rows="4" required></textarea>
+
+        <button type="submit">Submit</button>
+    </form>
 
 </body>
 
