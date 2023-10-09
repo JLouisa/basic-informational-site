@@ -27,12 +27,12 @@ const server = http.createServer(async (req, res) => {
   const extName = path.extname(thePath);
 
   //! Content-type of the file
-  const contentType = "text/html";
+  let contentType = "text/html";
 
   //! Dynamic content-type setup
   switch (extName) {
     case ".js": {
-      contentType = "text/html";
+      contentType = "text/javascript";
       break;
     }
     case ".css": {
@@ -53,10 +53,11 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
-  const data = await fs.readFile(thePath, "utf8").catch((error) => {
+  const data = await fs.readFile(thePath, "utf8").catch(async (error) => {
+    const errorData = await fs.readFile(path.join(__dirname, "public", "404.html"));
     console.error("An error occurred:", error);
     res.writeHead(500, { "Content-Type": contentType });
-    res.end("<h1>Internal Server Error</h1>");
+    res.end(errorData);
   });
   if (data) {
     res.writeHead(200, { "Content-Type": contentType });
