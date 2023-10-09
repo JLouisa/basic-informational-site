@@ -25,10 +25,46 @@ const server = http.createServer(async (req, res) => {
 
   //! Extention of the file
   const extName = path.extname(thePath);
-  console.log(extName);
+
+  //! Content-type of the file
+  const contentType = "text/html";
+
+  //! Dynamic content-type setup
+  switch (extName) {
+    case ".js": {
+      contentType = "text/html";
+      break;
+    }
+    case ".css": {
+      contentType = "text/css";
+      break;
+    }
+    case ".json": {
+      contentType = "application/json";
+      break;
+    }
+    case ".png": {
+      contentType = "image/png";
+      break;
+    }
+    case ".jpg": {
+      contentType = "image/jpg";
+      break;
+    }
+  }
+
+  const data = await fs.readFile(thePath, "utf8").catch((error) => {
+    console.error("An error occurred:", error);
+    res.writeHead(500, { "Content-Type": contentType });
+    res.end("<h1>Internal Server Error</h1>");
+  });
+  if (data) {
+    res.writeHead(200, { "Content-Type": contentType });
+    res.end(data);
+  }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5137;
 server.listen(PORT, () => {
   console.log(`Server running on port: ${PORT}`);
 });
