@@ -1,9 +1,11 @@
+const express = require("express");
+const app = express();
 const http = require("http");
 const path = require("path");
 const fs = require("fs/promises");
 const dotenv = require("dotenv").config();
 
-const server = http.createServer(async (req, res) => {
+app.get("/", async (req, res) => {
   console.log(req.url);
   //   if (req.url === "/") {
   //     const thePath = path.join(__dirname, "public", "index.html");
@@ -56,16 +58,76 @@ const server = http.createServer(async (req, res) => {
   const data = await fs.readFile(thePath, "utf8").catch(async (error) => {
     const errorData = await fs.readFile(path.join(__dirname, "public", "404.html"));
     console.error("An error occurred:", error);
-    res.writeHead(500, { "Content-Type": contentType });
-    res.end(errorData);
+    // res.writeHead(500, { "Content-Type": contentType });
+    res.send(errorData);
   });
   if (data) {
-    res.writeHead(200, { "Content-Type": contentType });
-    res.end(data);
+    // res.writeHead(200, { "Content-Type": contentType });
+    res.send(data);
+  }
+});
+
+app.get("/about.html", async (req, res) => {
+  //! Dynamic path
+  const thePath = path.join(__dirname, "public", req.url === "/" ? "index.html" : req.url);
+
+  //! Extention of the file
+  const extName = path.extname(thePath);
+
+  //! Content-type of the file
+  let contentType = "text/html";
+
+  const data = await fs.readFile(thePath, "utf8").catch(async (error) => {
+    const errorData = await fs.readFile(path.join(__dirname, "public", "404.html"));
+    console.error("An error occurred:", error);
+    res.send(errorData);
+  });
+  if (data) {
+    res.send(data);
+  }
+});
+
+app.get("/contact-me.html", async (req, res) => {
+  //! Dynamic path
+  const thePath = path.join(__dirname, "public", req.url === "/" ? "index.html" : req.url);
+
+  //! Extention of the file
+  const extName = path.extname(thePath);
+
+  //! Content-type of the file
+  let contentType = "text/html";
+
+  const data = await fs.readFile(thePath, "utf8").catch(async (error) => {
+    const errorData = await fs.readFile(path.join(__dirname, "public", "404.html"));
+    console.error("An error occurred:", error);
+    res.send(errorData);
+  });
+  if (data) {
+    res.send(data);
+  }
+});
+
+app.get("/index.html", async (req, res) => {
+  //! Dynamic path
+  const thePath = path.join(__dirname, "public", req.url === "/" ? "index.html" : req.url);
+
+  //! Extention of the file
+  const extName = path.extname(thePath);
+
+  //! Content-type of the file
+  let contentType = "text/html";
+
+  const data = await fs.readFile(thePath, "utf8").catch(async (error) => {
+    const errorData = await fs.readFile(path.join(__dirname, "public", "404.html"));
+    console.error("An error occurred:", error);
+    res.send(errorData);
+  });
+  if (data) {
+    res.send(data);
   }
 });
 
 const PORT = process.env.PORT || 5137;
-server.listen(PORT, () => {
-  console.log(`Server running on port: ${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT}!`);
 });
