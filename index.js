@@ -127,6 +127,7 @@ const dotenv = require("dotenv").config();
 //   }
 // });
 
+//! Express respondse
 app.use(express.static(path.join(__dirname, "public")));
 
 const PORT = process.env.PORT || 5137;
